@@ -1,0 +1,128 @@
+extends ../layout/index
+
+block contenido
+    h1(class="text-4xl font-extrabold text-center -mt-3 mb-10")= pagina
+        a(href='#' class='text-green-600 ml-3' onclick="exportarCsvConsolidado()")
+            i.fas.fa-file-excel
+        
+        a(href="/ventas/lista/0/0" class='text-green-600 ml-3')
+            i.fas.fa-spinner
+
+        div(class="flex justify-center mb-6 space-x-8 mt-5")
+
+            // Grupo de Tipo de Pago
+            div(class="border border-green-500 p-2 rounded-md text-sm")
+                h3(class="text-green-700 font-semibold mb-1 text-xs") Tipo de Pago
+                div(class="flex space-x-2") 
+                    each pago in tipoPagos
+                        label(for=`radio${pago.nombre}` class="inline-flex items-center space-x-1") 
+                            input(
+                                type="radio" 
+                                id=`radio${pago.nombre}` 
+                                name="ventaPago" 
+                                value=pago.parametroId 
+                                class="form-radio text-green-600 h-4 w-4" 
+                                onchange="filtrarPorParametros()"
+                                checked=(pagoId == pago.parametroId)
+                            )
+                            span(class="text-gray-600 text-xs")= pago.nombre 
+
+            // Grupo de Tipo de Compra
+            div(class="border border-green-500 p-2 rounded-md text-sm") 
+                h3(class="text-green-700 font-semibold mb-1 text-xs") Tipo de compra
+                div(class="flex space-x-2")
+                    each compra in tipoCompras
+                        label(for=`radio${compra.nombre}` class="inline-flex items-center space-x-1") 
+                            input(
+                                type="radio" 
+                                id=`radio${compra.nombre}` 
+                                name="ventaCompra" 
+                                value=compra.parametroId 
+                                class="form-radio text-green-600 h-4 w-4" 
+                                onchange="filtrarPorParametros()"
+                                checked=(compraId == compra.parametroId)
+                            )
+                            span(class="text-gray-600 text-xs")= compra.nombre 
+
+
+    script.
+        function exportarCsvConsolidado() {
+            window.location.href = `/ventas/exportar-csv/0`
+        }
+
+    div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-8xl my-10 md:px-10 -mt-5")
+
+        if ventas.length
+            div(class="flex justify-between items-center mb-4")
+                input#filterInput(type="text" placeholder="Buscar ventas..." class="w-full px-4 py-2 border rounded-md")
+
+            div(class="overflow-x-auto")
+                table(class="min-w-full bg-white border-collapse mt-4")
+                    thead
+                        tr(class="bg-green-500 text-white uppercase text-sm leading-normal")
+                            th(class="py-3 px-6 text-left border-b border-gray-200") ID
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Numero de Venta
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Cliente
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Fecha de Venta
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Precio Total
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Precio Total Costo
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Envio
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Estado
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Acción
+                    tbody(id="guiasTable" class="text-gray-900 text-sm")
+                        each venta in ventas
+                            tr(class="border-b border-green-200 hover:bg-green-100")
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= venta.id
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= venta.numeroVenta
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= venta.cliente
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= venta.fechaDeVenta
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= venta.precioTotal
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= venta.precioTotalCosto
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= venta.envio
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= venta.activo == 0 ? 'Anulado' : (venta.estadoId == 7 ? 'Finalizado' : 'En Proceso')
+                                td(class="py-3 px-6 text-center border-b border-gray-200")                                
+                                    if venta.ventas_detalles && venta.ventas_detalles.length > 0
+                                        a(href=`/ventas/exportar-csv/${venta.id}` class="text-green-500 hover:text-green-700 flex items-center")
+                                            i.fas.fa-file-excel
+                                            |  Reporte
+                                    if venta.activo == 1 && venta.estadoId == 6
+                                        a(href=`/ventas/formularioDetalle/${venta.id}` class="text-blue-500 hover:text-blue-700 mr-2 flex items-center")
+                                            i(class="fas fa-pencil-alt mr-1")
+                                            | Editar 
+                                            
+                                        a(href=`/ventas/mensajeEliminarVenta/${venta.id}` class="text-red-500 hover:text-red-700 flex items-center")
+                                            i(class="fas fa-trash-alt mr-1")
+                                            | Eliminar
+
+
+        else
+            p.text-center No hay ventas registrados.
+
+        // Controles de paginación con margen superior
+        if totalPages > 1
+            nav(class="mt-4 flex justify-center" aria-label="Paginación")
+                ul(class="inline-flex -space-x-px")
+                    li
+                        a(href=`?page=${currentPage - 1}` 
+                            class=(currentPage === 1 
+                                ? "py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 pointer-events-none opacity-50" 
+                                : "py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700")) Anterior
+                    each page in [...Array(totalPages).keys()].map(n => n + 1)
+                        li
+                            a(href=`?page=${page}` 
+                                class=(page === currentPage 
+                                    ? "py-2 px-3 leading-tight text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700" 
+                                    : "py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"))= page
+                    li
+                        a(href=`?page=${currentPage + 1}` 
+                            class=(currentPage === totalPages 
+                                ? "py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 pointer-events-none opacity-50" 
+                                : "py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700")) Siguiente
+
+block scripts
+    script.
+        function filtrarPorParametros() {
+            const pagoSeleccionado = document.querySelector('input[name="ventaPago"]:checked')?.value || 0;
+            const compraSeleccionada = document.querySelector('input[name="ventaCompra"]:checked')?.value || 0;
+            window.location.href = `/ventas/lista/${pagoSeleccionado}/${compraSeleccionada}`;
+        }

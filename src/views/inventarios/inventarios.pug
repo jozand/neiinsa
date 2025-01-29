@@ -1,0 +1,82 @@
+extends ../layout/index
+
+block contenido
+    h1(class="text-4xl font-extrabold text-center -mt-3 mb-10")= pagina
+        a(href='#' class='text-green-600 ml-3' onclick="exportarCsvConsolidado()") 
+            i.fas.fa-file-excel
+
+        script.
+            function exportarCsvConsolidado() {
+                // Obtiene el ID del radio button seleccionado
+                const filtroSeleccionado = document.querySelector('input[name="inventarioFiltro"]:checked').value;
+                // Redirige a la URL correcta empezando desde la raíz
+                window.location.assign(`/inventarios/exportar-csv?filtroId=` + encodeURIComponent(filtroSeleccionado));
+            }
+
+    div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-8xl my-10 md:px-10 -mt-5")
+        
+        // Filtros Activos y Todos
+        div(class="flex justify-center mb-6 space-x-4") 
+            label(for="radioActivos" class="inline-flex items-center space-x-2")
+                input#radioActivos(type="radio" name="inventarioFiltro" value="1" class="form-radio text-indigo-600 h-5 w-5" checked=(op === 1) onchange="filtrarInventarios(1)")
+                span.text-gray-700 Activos
+
+            label(for="radioTodos" class="inline-flex items-center space-x-2")
+                input#radioTodos(type="radio" name="inventarioFiltro" value="0" class="form-radio text-indigo-600 h-5 w-5" checked=(op === 0) onchange="filtrarInventarios(0)")
+                span.text-gray-700 Todos
+            
+        if inventarios.length
+            div(class="flex justify-between items-center mb-4")
+            
+            div(class="overflow-x-auto")
+                table(class="min-w-full bg-white border-collapse")
+                    thead
+                        tr(class="bg-indigo-500 text-white uppercase text-sm leading-normal")
+                            th(class="py-3 px-6 text-left border-b border-gray-200") ID
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Fecha
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Concepto
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Marca
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Producto
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Entrada
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Salida
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Existencia
+                    tbody(id="pedidosTable" class="text-gray-900 text-sm")
+                        each inventario in inventarios
+                            tr(class=`border-b border-indigo-200 hover:bg-indigo-100 ${inventario.activo == true ? 'bg-yellow-100' : ''}`)
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= inventario.id
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= inventario.fecha
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= inventario.concepto
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= inventario.marca
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= inventario.producto
+                                td(class="py-3 px-6 text-left border-b border-gray-200 text-blue-500 font-extrabold")= inventario.entrada
+                                td(class="py-3 px-6 text-left border-b border-gray-200 text-red-500 font-extrabold")= inventario.salida
+                                td(class="py-3 px-6 text-left border-b border-gray-200 text-indigo-500 font-extrabold")= inventario.existencia
+        else                             
+            p.text-center No hay inventarios registrados.
+
+        // Controles de paginación con margen superior
+        if totalPages > 1
+            nav(class="mt-4 flex justify-center" aria-label="Paginación")
+                ul(class="inline-flex -space-x-px")
+                    li
+                        a(href=`?page=${currentPage - 1}` 
+                            class=(currentPage === 1 
+                                ? "py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 pointer-events-none opacity-50" 
+                                : "py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700")) Anterior
+                    each page in [...Array(totalPages).keys()].map(n => n + 1)
+                        li
+                            a(href=`?page=${page}` 
+                                class=(page === currentPage 
+                                    ? "py-2 px-3 leading-tight text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700" 
+                                    : "py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"))= page
+                    li
+                        a(href=`?page=${currentPage + 1}` 
+                            class=(currentPage === totalPages 
+                                ? "py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 pointer-events-none opacity-50" 
+                                : "py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700")) Siguiente
+
+block scripts  
+    script.
+        function filtrarInventarios(op) {
+            window.location.href = '/inventarios/lista/' + op;
+        }

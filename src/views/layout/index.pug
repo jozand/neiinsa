@@ -1,0 +1,31 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title neiinsa | #{pagina}
+    block styles
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
+    link(rel="stylesheet" href="/css/app.css")
+  // Configura body con flex y pantalla completa
+  body(class="min-h-screen flex flex-col bg-gray-50")
+    if barra 
+      include header
+
+    // Contenido principal con flex-grow para ocupar el espacio restante
+    main(class="flex-grow container mx-auto mt-10 px-2")
+      block contenido
+
+    // Footer siempre visible en la parte inferior
+    include footer
+
+    block scripts
+      script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
+      script.
+        document.addEventListener('DOMContentLoaded', function () {
+          const inputs = document.querySelectorAll('input');
+          inputs.forEach(input => {
+            input.setAttribute('autocomplete', 'off');
+          })
+        })

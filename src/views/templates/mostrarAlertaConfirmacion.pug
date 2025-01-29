@@ -1,0 +1,27 @@
+extends ../layout/index
+
+block contenido
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const mensaje = urlParams.get('mensaje');
+      const tipo = urlParams.get('tipo');
+      const hrefAceptar = urlParams.get('hrefAceptar');
+      const hrefCancelar = urlParams.get('hrefCancelar');
+
+      if (mensaje) {
+        Swal.fire({
+          title: mensaje,
+          icon: tipo === 'exito' ? 'success' : 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Aceptar',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = hrefAceptar; // Redirigir a la URL de aceptar
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            window.location.href = hrefCancelar; // Redirigir a la URL de cancelar
+          }
+        });
+      }
+    });

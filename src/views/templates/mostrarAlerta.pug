@@ -1,0 +1,22 @@
+extends ../layout/index
+
+block contenido
+    // Esta vista mostrará el mensaje de confirmación
+    script.
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mensaje = urlParams.get('mensaje');
+            const tipo = urlParams.get('tipo');
+            const href = urlParams.get('href');
+
+            if (mensaje) {
+                Swal.fire({
+                    icon: tipo === 'exito' ? 'success' : 'error',
+                    title: mensaje,
+                    showConfirmButton: false,
+                    timer: tipo === 'exito' ? 1500 : 3500
+                }).then(() => {
+                    window.location.href = href;
+                });
+            }
+        });

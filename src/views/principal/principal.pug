@@ -1,0 +1,255 @@
+extends ../layout/index
+
+block contenido
+  h1(class="text-4xl font-extrabold text-center -mt-3 mb-10")= pagina
+
+  div(class="container mx-auto px-4 mt-10")
+    h1(class="text-2xl font-bold mb-6") Calendario de Ventas
+    div(class="bg-white shadow-md rounded-lg p-6")
+      // Se usa w-full para el ancho completo y h-auto para una altura automática que se adapte
+      div(id="calendar" class="w-full h-auto max-w-full")
+
+  // Modal para mostrar los detalles de la guía
+  #guideModal(class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 hidden")
+    .bg-white.p-6.rounded-lg.shadow-lg
+      h2.text-2xl.font-bold.mb-4 Detalle de la Venta
+      #guideDetails
+      button#closeModal(class="mt-4 px-4 py-2 bg-blue-500 text-white rounded") Cerrar
+      script.
+        document.getElementById('closeModal').addEventListener('click', function() {
+          document.getElementById('guideModal').classList.add('hidden');
+        });
+
+
+  // Contenedor para el gráfico de barras (ocupa toda la pantalla)
+  div(class="container mx-auto px-4 mt-4")
+    h1(class="text-2xl font-bold mb-6 text-center") Clientes por departamentos
+    div(class="bg-white shadow-md rounded-lg p-6")
+      // Asegura que el canvas ocupe el ancho completo en pantallas pequeñas y ajuste la altura
+      canvas(id="chartClientes" class="w-full h-80 md:h-96") 
+    
+  div(class="md:flex md:gap-4 space-y-5 md:space-y-0")  
+    div(class="md:w-1/2") 
+
+      div(class="container mx-auto px-4 mt-10")
+        h1(class="text-2xl font-bold mb-6 text-center") Gráfico de Ventas
+        div(class="bg-white shadow-md rounded-lg p-6")
+          div(class="flex flex-col md:flex-row justify-between")
+            // Cada gráfico ocupa el 100% en pantallas pequeñas y el 50% en pantallas medianas o superiores
+            div(class="w-full md:w-1/2 mb-6 md:mb-0") 
+              h2(class="text-xl font-bold mb-4 text-center") Gráfico por Tipo de Pago
+              canvas(id="myPieChart1" class="w-full h-64 md:h-80")
+            div(class="w-full md:w-1/2")
+              h2(class="text-xl font-bold mb-4 text-center") Gráfico por Tipo de Compra
+              canvas(id="myPieChart2" class="w-full h-64 md:h-80")
+
+    div(class="md:w-1/2") 
+    
+      div(class="container mx-auto px-4 mt-10")
+        h1(class="text-2xl font-bold mb-6") Productos más vendidos
+        div(class="bg-white shadow-md rounded-lg p-6")
+          canvas(id="line" class="w-full h-64 md:h-72 lg:h-80")
+
+
+block scripts   
+  script(src="https://cdn.jsdelivr.net/npm/chart.js")
+  script(src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js")
+
+  script(src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js")
+  script.
+    document.addEventListener('DOMContentLoaded', function () {
+      const calendarEl = document.getElementById('calendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        events: !{JSON.stringify(events)}, // Asumiendo que tienes eventos en formato JSON
+
+        eventDidMount: function(info) {
+          // Cambiar el cursor a 'pointer' cuando se pasa por encima de un evento
+          info.el.style.cursor = 'pointer';
+        },
+        buttonText: {
+          today: 'Hoy' // Cambiar "Today" por "Hoy"
+        },
+        eventClick: function(info) {
+          const ventaId = info.event.id;
+
+          // Realizar consulta AJAX para obtener los detalles de la guía
+          fetch(`/detalleCalentario/${ventaId}`)
+            .then(response => response.json())
+            .then(data => {
+              // Actualizar el contenido del modal con los detalles de la guía
+              const guideDetails = document.getElementById('guideDetails');
+              guideDetails.innerHTML = `
+                <p><strong>No.:</strong> ${data.numeroGuia}</p>
+                <p><strong>Total a Cobrar:</strong> ${data.precioTotal}</p>
+                <p><strong>Cliente:</strong> ${data.clienteNombre}</p>
+                <p><strong>Tipo de Pago:</strong> ${data.estado}</p>
+                <p><strong>Tipo de Compra:</strong> ${data.tipoPago}</p>
+                <p><strong>Fecha de Entrega:</strong> ${data.fechaEntrega}</p>
+                <p><strong>Dirección:</strong> ${data.direccion}</p>
+              `;
+              document.getElementById('guideModal').classList.remove('hidden');
+            })
+            .catch(error => console.error('Error al obtener la guía:', error));
+        }
+      });
+      calendar.render();
+    });
+    
+  //crear grafico de barras clientes
+  script.
+    document.addEventListener('DOMContentLoaded', function () {
+      const chartDataClientes = !{chartDataClientes};
+      const ctx = document.getElementById('chartClientes').getContext('2d');
+      
+      const chartClientes = new Chart(ctx, {
+        type: 'bar',
+        data: chartDataClientes,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1 // Incremento en enteros
+              }
+            }
+          },
+          plugins: {
+            datalabels: {
+              anchor: 'end',  // Posición del valor
+              align: 'end',   // Alineación del texto
+              color: 'black', // Color del texto
+              formatter: function(value) { // Personaliza el formato si lo necesitas
+                return value;
+              }
+            }
+          }
+        },
+        plugins: [ChartDataLabels] // Incluye el plugin en la configuración
+      });
+    });
+
+  // Script para el gráfico de pie de guías por pago
+  script.
+    document.addEventListener('DOMContentLoaded', function () {
+      const chartDataGuias = !{chartDataVentasPagoParametro};
+      const ctxGuias = document.getElementById('myPieChart1').getContext('2d');
+      
+      const myPieChart = new Chart(ctxGuias, {
+        type: 'pie',
+        data: {
+          labels: chartDataGuias.labels, // Etiquetas
+          datasets: [{
+            label: chartDataGuias.datasets[0].label,
+            data: chartDataGuias.datasets[0].data, // Datos de conteo
+            backgroundColor: chartDataGuias.datasets[0].backgroundColor,
+            borderColor: chartDataGuias.datasets[0].borderColor,
+            borderWidth: chartDataGuias.datasets[0].borderWidth
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top', // Posición de la leyenda
+            },
+            // Agregamos el plugin de datalabels
+            datalabels: {
+              color: 'black',  // Color de los valores
+              anchor: 'end',   // Posición relativa a la barra (final)
+              align: 'start',  // Alineación del texto
+              formatter: function(value, context) {
+                return value; // Retornar el valor tal cual
+              }
+            }
+          }
+        },
+        plugins: [ChartDataLabels] // Activar el plugin de etiquetas
+      });
+    });
+
+  script.
+    document.addEventListener('DOMContentLoaded', function () {
+      const chartDataGuias = !{chartDataVentaCompraParametro};
+      const ctxGuias = document.getElementById('myPieChart2').getContext('2d');
+      
+      const myPieChart = new Chart(ctxGuias, {
+        type: 'doughnut',
+        data: {
+          labels: chartDataGuias.labels, // Etiquetas 
+          datasets: [{
+            label: chartDataGuias.datasets[0].label,
+            data: chartDataGuias.datasets[0].data, // Datos de conteo 
+            backgroundColor: chartDataGuias.datasets[0].backgroundColor,
+            borderColor: chartDataGuias.datasets[0].borderColor,
+            borderWidth: chartDataGuias.datasets[0].borderWidth
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top', // Posición de la leyenda
+            },
+            // Agregamos el plugin de datalabels
+            datalabels: {
+              color: 'black',  // Color de los valores
+              anchor: 'end',   // Posición relativa a la barra (final)
+              align: 'start',  // Alineación del texto
+              formatter: function(value, context) {
+                return value; // Retornar el valor tal cual
+              }
+            }
+          }
+        },
+        plugins: [ChartDataLabels] // Activar el plugin de etiquetas
+      });
+    });
+
+  script.
+    document.addEventListener('DOMContentLoaded', function () {
+      const chartDataGuias = !{chartDataLine};
+      const ctxGuias = document.getElementById('line').getContext('2d');
+      
+      const myLineChart = new Chart(ctxGuias, {
+        type: 'line',
+        data: {
+          labels: chartDataGuias.labels, // Etiquetas
+          datasets: [{
+            label: chartDataGuias.datasets[0].label,
+            data: chartDataGuias.datasets[0].data, // Datos
+            backgroundColor: chartDataGuias.datasets[0].backgroundColor,
+            borderColor: chartDataGuias.datasets[0].borderColor,
+            borderWidth: chartDataGuias.datasets[0].borderWidth,
+            fill: false // No rellenar bajo la línea
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: false,
+              text: (ctx) => 'Point Style: ' + ctx.chart.data.datasets[0].pointStyle,
+            },
+            // Agregar configuración para mostrar los datalabels
+            datalabels: {
+              color: 'black',  // Color de las etiquetas
+              anchor: 'end',   // Posición relativa al punto
+              align: 'top',    // Alineación de las etiquetas respecto al punto
+              formatter: function(value, context) {
+                return value; // Mostrar el valor tal cual
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        },
+        plugins: [ChartDataLabels] // Activar el plugin de Data Labels
+      });
+    });

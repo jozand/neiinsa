@@ -1,0 +1,47 @@
+header(class="bg-indigo-500 p-4")
+  .container.mx-auto.flex.justify-between.items-center
+    h1(class="text-2xl text-white font-extrabold flex items-center")
+      | Sistema de
+      span(class="font-normal") Gestión
+
+      a(href='/') 
+        img(src="/img/logo.jpg" alt="Logo" class="w-14 h-14 ml-2 rounded-full")
+
+    // Botón hamburguesa para móviles
+    button(id="menu-toggle" class="md:hidden text-white focus:outline-none")
+      i(class="fas fa-bars")
+
+    // Menú de navegación, oculto en móviles y visible en pantallas medianas
+    nav(id="menu" class="hidden md:flex flex-col md:flex-row md:items-center md:gap-3 text-sm font-bold text-white space-y-4 md:space-y-0")
+      a(href="/clientes/clientes" class="hover:text-gray-200") Clientes
+      a(href="/marcas/lista" class="hover:text-gray-200") Marcas
+      a(href="/productos/lista" class="hover:text-gray-200") Productos
+      a(href="/pedidos/lista" class="hover:text-gray-200") Pedidos
+      a(href="/inventarios/lista/1" class="hover:text-gray-200") Inventarios
+      a(href="/ventas/lista/0/0" class="hover:text-gray-200") Ventas
+
+      // Submenú Catálogos con hover y focus-within
+      div(class="relative group")
+        a(href="#" class="inline-flex items-center hover:text-gray-200 focus:text-gray-200")
+          | Catálogos
+          i(class="fas fa-chevron-down ml-2")
+
+        // Menú desplegable
+        div(class="absolute hidden group-hover:block group-focus-within:block bg-indigo-600 rounded shadow-md mt-2 z-10")
+          a(href="/departamentos/departamentos" class="block px-4 py-2 text-white hover:bg-indigo-700") Departamentos
+          a(href="/municipios/municipios" class="block px-4 py-2 text-white hover:bg-indigo-700") Municipios
+
+      form(method="POST" action='/auth/cerrar-session')
+        input(type="hidden" name="_csrf" value= csftToken)
+        button(type="submit" class="bg-indigo-600 text-white py-2 px-6 rounded-lg cursor-pointer hover:bg-indigo-800 transition duration-300 ease-in-out flex items-center gap-2")
+          i(class="fas fa-sign-out-alt") 
+          | Cerrar Sesión
+
+
+// Script para manejar el menú hamburguesa en móviles
+script.
+  document.getElementById('menu-toggle').addEventListener('click', function() {
+    var menu = document.getElementById('menu');
+    menu.classList.toggle('hidden');
+    menu.classList.toggle('flex');
+  });

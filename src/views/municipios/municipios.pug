@@ -1,0 +1,50 @@
+extends ../layout/index
+
+block contenido
+    h1(class="text-4xl font-extrabold text-center -mt-3 mb-10")= pagina
+        a(href='/municipios/formulario' class='text-blue-600 ml-3')
+            i.fas.fa-plus-circle
+
+    div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-8xl my-10 md:px-10 -mt-5")
+
+        // Filtro de Departamentos y Búsqueda de Municipios
+        div(class="flex justify-between items-center mb-4 space-x-4")
+                    // Select de departamentos
+                    select#departamentoSelect(class="w-1/4 px-4 py-2 border rounded-md")
+                        option(value='') - Seleccione -
+                        each departamento in departamentos
+                            option(value=departamento.departamentoId)= departamento.nombre
+                    input#filterInputMunicipio(type="text" placeholder="Buscar municipio..." class="w-full px-4 py-2 border rounded-md")
+
+        // Tabla de Municipios
+        div(class="overflow-x-auto")
+            table(class="min-w-full bg-white border-collapse mt-4")
+                thead
+                    tr(class="bg-green-500 text-white uppercase text-sm leading-normal")
+                        th(class="py-3 px-6 text-left border-b border-gray-200") ID
+                        th(class="py-3 px-6 text-left border-b border-gray-200") Nombre
+                        th(class="py-3 px-6 text-left border-b border-gray-200") Latitud
+                        th(class="py-3 px-6 text-left border-b border-gray-200") Longitud
+                        th(class="py-3 px-6 text-left border-b border-gray-200") Acción
+                tbody(id="municipiosTable" class="text-gray-900 text-sm")
+                    each municipio in municipios
+                        tr(class="border-b border-green-200 hover:bg-green-100")
+                            td(class="py-3 px-6 text-left border-b border-gray-200")= municipio.municipioId
+                            td(class="py-3 px-6 text-left border-b border-gray-200")= municipio.nombre
+                            td(class="py-3 px-6 text-left border-b border-gray-200")= municipio.lat
+                            td(class="py-3 px-6 text-left border-b border-gray-200")= municipio.lng
+                            td(class="py-3 px-6 text-center border-b border-gray-200")
+                                a(href=`/municipios/editar/${municipio.municipioId}` class="text-blue-500 hover:text-blue-700 mr-2 flex items-center")
+                                    i(class="fas fa-pencil-alt mr-1") 
+                                    | Editar
+                                a(href=`/municipios/cargaEliminar/${municipio.municipioId}` class="text-red-500 hover:text-red-700 flex items-center")
+                                    i(class="fas fa-trash-alt mr-1") 
+                                    | Eliminar
+
+        // Controles de paginación
+        //if totalPages > 1
+        div(id="paginacion" class="mt-4 flex justify-center")
+
+block scripts
+    script(src="/js/filtroMunicipios.js")
+    script(src="/js/selectDepartamentos.js")

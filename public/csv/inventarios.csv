@@ -1,0 +1,7 @@
+Id,Fecha de Creación,Concepto,Marca,Producto,Entrada,Salida,Existencia
+11,07/11/2024,Inicial,Aquapro,Lampara,5,0,5
+11,07/11/2024,Compra,Aquapro,Lampara,3,0,8
+11,08/11/2024,Compra,Aquapro,Lampara,2,0,10
+11,10/11/2024,Compra,Aquapro,Lampara,5,0,15
+21,07/11/2024,Inicial,Aquapro,Lamparita,2,0,2
+21,10/11/2024,Venta,Aquapro,Lamparita,0,1,1

@@ -1,0 +1,110 @@
+extends ../layout/index
+
+block contenido
+        h1.text-4xl.my-10.font-extrabold.text-center= pagina
+
+        if errores 
+            div(class="max-w-md mx-auto my-10")
+                each error in errores
+                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
+
+        div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
+                form.space-y-5(method="POST" action='/pedidos/crear')
+                    input(type="hidden" name="_csrf" value= csftToken)
+                
+                    div(class="md:flex md:gap-4 space-y-5 md:space-y-0")  
+                        div(class="md:w-1/3") 
+                            label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="fecha") Fecha
+                            input#fecha.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Fecha de ingreso", type="date", name="fecha" value= datos.fecha ? datos.fecha: '')
+
+                        div(class="md:w-1/3") 
+                            label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="precioTotal") Precio Total
+                            input#precioTotal.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Precio total de pedido", type="text", name="precioTotal" value= datos.precioTotal ? datos.precioTotal: '')
+
+                        div(class="md:w-1/3") 
+                            label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="cantidadTotal") Cantidad Total
+                            input#cantidadTotal.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Cantidad Total del pedido", type="number", name="cantidadTotal" value= datos.cantidadTotal ? datos.cantidadTotal: '')
+
+                    div.relative
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="nombreProveedor") Proveedor
+                        input#nombreProveedor.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Ingrese el proveedor", type="text", name="nombreProveedor" value= datos.nombreProveedor ? datos.nombreProveedor: '', autocomplete="off")
+                        ul#proveedorList.hidden.bg-white.shadow-md.rounded-lg.max-h-48.overflow-auto.absolute.z-10.w-full
+
+                    input(type="hidden" name="pedidoId" id="pedidoId" value= datos.id ? datos.id : '') 
+
+                    div(class="flex space-x-4 mb-4")
+                            // Botón de Regresar
+                            a(href="/pedidos/lista", class="w-1/2 inline-flex items-center justify-center px-4 py-2 border border-gray-300 bg-gray-200 rounded-md text-gray-700 hover:bg-gray-300")
+                                i.fas.fa-arrow-left.mr-2
+                                | Regresar
+
+                            // Botón de Guardar                         
+                            button(type="submit" class="w-1/2 inline-flex items-center justify-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-md")
+                                i.fas.fa-save.mr-2
+                                | Guardar
+
+block scripts   
+    script.
+        document.addEventListener('DOMContentLoaded', function() {
+          const input = document.getElementById('precioTotal');
+          input.addEventListener('input', function(e) {
+            // Elimina todos los caracteres que no sean números o puntos
+            let value = e.target.value.replace(/[^\d]/g, '');
+
+            // Agregar el formato de moneda
+            value = new Intl.NumberFormat('es-GT', {
+              style: 'currency',
+              currency: 'GTQ'
+            }).format(value / 100);
+
+            // Actualizar el valor del campo de entrada
+            e.target.value = value;
+          });
+        });
+
+    script.
+        document.addEventListener('DOMContentLoaded', function() {
+            const proveedorInput = document.getElementById('nombreProveedor');
+            const proveedorList = document.getElementById('proveedorList');
+
+            proveedorInput.addEventListener('input', function(e) {
+                const termino = e.target.value;
+
+                if (termino.length > 1) { // Comienza a buscar después de 2 caracteres
+                fetch(`/pedidos/buscarProveedor?termino=${termino}`)
+                    .then(response => response.json())
+                    .then(proveedores => {
+                    // Limpiar la lista de resultados anteriores
+                    proveedorList.innerHTML = '';
+
+                    if (proveedores.length > 0) {
+                        proveedorList.classList.remove('hidden');
+                        
+                        // Crear los elementos de la lista con los proveedores encontrados
+                        proveedores.forEach(proveedor => {
+                        const li = document.createElement('li');
+                        li.textContent = proveedor.nombreProveedor;
+                        li.classList.add('p-2', 'hover:bg-gray-200', 'cursor-pointer');
+                        li.addEventListener('click', function() {
+                            proveedorInput.value = proveedor.nombreProveedor;
+                            proveedorList.classList.add('hidden');
+                        });
+                        proveedorList.appendChild(li);
+                        });
+                    } else {
+                        proveedorList.classList.add('hidden');
+                    }
+                    })
+                    .catch(error => console.error('Error al buscar proveedores:', error));
+                } else {
+                proveedorList.classList.add('hidden');
+                }
+            });
+
+            // Ocultar la lista si el usuario hace clic fuera
+            document.addEventListener('click', function(e) {
+                if (!proveedorList.contains(e.target) && e.target !== proveedorInput) {
+                proveedorList.classList.add('hidden');
+                }
+            });
+        });

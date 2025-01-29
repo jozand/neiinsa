@@ -1,0 +1,38 @@
+extends ../layout/index
+
+block contenido
+    h1.text-4xl.my-10.font-extrabold.text-center= pagina
+
+    div.mt-8.mx-auto.max-w-md
+        div.bg-white.py-8.px-4.shadow
+            form.space-y-5(method="POST" action='/departamentos/eliminar')
+                input(type="hidden" name="_csrf" value= csftToken)
+                div
+                    label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="id") ID
+                    input#id.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="ID", type="text", name="id" value= departamento ? departamento.id: '' disabled)
+
+                div 
+                    label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="nombre") Nombre
+                    input#nombre.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Nombre del Departamento", type="text", name="nombre" value= departamento ? departamento.nombre: '' disabled)
+
+                div 
+                    label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="lat") Latitud
+                    input#lat.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Latitud", type="text", name="lat" value= departamento ? departamento.lat: '' disabled)
+
+                div 
+                    label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="lng") Longitud
+                    input#lng.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Longitud", type="text", name="lng" value= departamento ? departamento.lng: '' disabled)
+
+                input(type="hidden" name="id" id="id" value= departamento.id ? departamento.id : '') 
+
+                // Contenedor para los botones
+                div(class="flex space-x-4 mb-4")
+                    // Botón de Regresar
+                    a(href="javascript:history.back()", class="w-1/2 inline-flex items-center justify-center px-4 py-2 border border-gray-300 bg-gray-200 rounded-md text-gray-700 hover:bg-gray-300")
+                        i.fas.fa-arrow-left.mr-2
+                        | Regresar
+
+                    // Botón de Eliminar                    
+                    button(type="submit" class="w-1/2 inline-flex items-center justify-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-md")
+                        i.fas.fa-trash-alt.mr-2
+                        | Eliminar

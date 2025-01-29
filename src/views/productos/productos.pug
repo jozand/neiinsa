@@ -1,0 +1,68 @@
+extends ../layout/index
+
+block contenido
+    
+    h1(class="text-4xl font-extrabold text-center -mt-3 mb-10")= pagina
+        a(href='/productos/buscar' class='text-blue-600 ml-3' )
+                i.fas.fa-plus-circle
+        a(href='/productos/exportar-csv' class='text-green-600 ml-3' )
+                i.fas.fa-file-excel
+
+    div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-8xl my-10 md:px-10 -mt-5")
+
+        if productos.length
+            div(class="flex justify-between items-center mb-4")
+            input#filterInput(type="text" placeholder="Buscar productos..." class="w-full px-4 py-2 border rounded-md")
+
+            div(class="overflow-x-auto")
+                table(class="min-w-full bg-white border-collapse mt-4")
+                    thead
+                        tr(class="bg-indigo-500 text-white uppercase text-sm leading-normal")
+                            th(class="py-3 px-6 text-left border-b border-gray-200") ID
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Marca
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Producto
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Fecha de Creación
+                            th(class="py-3 px-6 text-left border-b border-gray-200") Acción
+                    tbody(id="productosTable" class="text-gray-900 text-sm")
+                        each producto in productos
+                            tr(class="border-b border-indigo-200 hover:bg-indigo-100")
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= producto.codigo
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= producto.marca
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= producto.nombre
+                                td(class="py-3 px-6 text-left border-b border-gray-200")= producto.createdAt
+                                td(class="py-3 px-6 text-center border-b border-gray-200")
+                                    a(href=`/productos/editar/${producto.id}` class="text-blue-500 hover:text-blue-700 mr-2 flex items-center")
+                                        i(class="fas fa-pencil-alt mr-1") 
+                                        | Editar
+                                    a(href=`/productos/cargaEliminar/${producto.id}` class="text-red-500 hover:text-red-700 flex items-center")
+                                        i(class="fas fa-trash-alt mr-1") 
+                                        | Eliminar
+        else
+            p.text-center No hay productos registrados.
+
+
+        // Controles de paginación con margen superior
+        if totalPages > 1
+            nav(class="mt-4 flex justify-center" aria-label="Paginación")
+                ul(class="inline-flex -space-x-px")
+                    li
+                        a(href=`?page=${currentPage - 1}` 
+                            class=(currentPage === 1 
+                                ? "py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 pointer-events-none opacity-50" 
+                                : "py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700")) Anterior
+                    each page in [...Array(totalPages).keys()].map(n => n + 1)
+                        li
+                            a(href=`?page=${page}` 
+                                class=(page === currentPage 
+                                    ? "py-2 px-3 leading-tight text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700" 
+                                    : "py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"))= page
+                    li
+                        a(href=`?page=${currentPage + 1}` 
+                            class=(currentPage === totalPages 
+                                ? "py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 pointer-events-none opacity-50" 
+                                : "py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700")) Siguiente
+
+
+
+block scripts
+    script(src="/js/filtroProductos.js")

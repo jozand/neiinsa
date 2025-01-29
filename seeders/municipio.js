@@ -1,0 +1,251 @@
+const municipios = [
+
+  //Municipios de Alta Verapaz
+  { municipioId: 1, nombre: "Cobán", departamentoId: 1, lat: "15.4833", lng: "-90.3833", usuarioId: 1  },
+  { municipioId: 2, nombre: "San Pedro Carchá", departamentoId: 1, lat: "15.4667", lng: "-90.3500", usuarioId: 1  },
+  { municipioId: 3, nombre: "San Juan Chamelco", departamentoId: 1, lat: "15.5000", lng: "-90.4167", usuarioId: 1  },
+  { municipioId: 4, nombre: "Tactic", departamentoId: 1, lat: "15.4167", lng: "-90.4000", usuarioId: 1  },
+  { municipioId: 5, nombre: "Tucurú", departamentoId: 1, lat: "15.4000", lng: "-90.4500", usuarioId: 1  },
+  { municipioId: 6, nombre: "Panzós", departamentoId: 1, lat: "15.3833", lng: "-90.4833", usuarioId: 1  },
+  { municipioId: 7, nombre: "Santa Cruz Verapaz", departamentoId: 1, lat: "15.3500", lng: "-90.4000", usuarioId: 1  },
+  { municipioId: 8, nombre: "Santa Catalina La Tinta", departamentoId: 1, lat: "15.2833", lng: "-90.4500", usuarioId: 1  },
+  { municipioId: 9, nombre: "Tamahu", departamentoId: 1, lat: "15.4667", lng: "-90.4667", usuarioId: 1  },
+  { municipioId: 10, nombre: "Senahú", departamentoId: 1, lat: "15.3667", lng: "-90.3333", usuarioId: 1  },
+  { municipioId: 11, nombre: "San Cristóbal Verapaz", departamentoId: 1, lat: "15.3833", lng: "-90.2500", usuarioId: 1  },
+  { municipioId: 12, nombre: "Fray Bartolomé de las Casas", departamentoId: 1, lat: "15.4167", lng: "-90.2167", usuarioId: 1  },
+  { municipioId: 13, nombre: "Chisec", departamentoId: 1, lat: "15.4833", lng: "-90.2000", usuarioId: 1  },
+  { municipioId: 14, nombre: "Lanquín", departamentoId: 1, lat: "15.6000", lng: "-90.4000", usuarioId: 1  },
+  { municipioId: 15, nombre: "Cahabón", departamentoId: 1, lat: "15.5500", lng: "-90.4167", usuarioId: 1  },
+  { municipioId: 16, nombre: "Santa María Cahabón", departamentoId: 1, lat: "15.5500", lng: "-90.4667", usuarioId: 1  },
+  { municipioId: 17, nombre: "Chahal", departamentoId: 1, lat: "15.5000", lng: "-90.3667", usuarioId: 1  },
+
+  //Municipios de Baja Verapaz
+  { municipioId: 18, nombre: "Salamá", departamentoId: 2, lat: "15.0833", lng: "-89.6167", usuarioId: 1  },
+  { municipioId: 19, nombre: "San Miguel Chicaj", departamentoId: 2, lat: "15.1000", lng: "-89.5500", usuarioId: 1  },
+  { municipioId: 20, nombre: "San Jerónimo", departamentoId: 2, lat: "15.0667", lng: "-89.5833", usuarioId: 1  },
+  { municipioId: 22, nombre: "Rabinal", departamentoId: 2, lat: "15.1833", lng: "-89.5167", usuarioId: 1  },
+  { municipioId: 23, nombre: "Cubulco", departamentoId: 2, lat: "15.1167", lng: "-89.7500", usuarioId: 1  },
+  { municipioId: 24, nombre: "Granados", departamentoId: 2, lat: "15.1500", lng: "-89.6000", usuarioId: 1  },
+  { municipioId: 25, nombre: "San Juan de Río Frío", departamentoId: 2, lat: "15.0833", lng: "-89.7167", usuarioId: 1  },
+
+  //Municipios de Chimaltenango
+  { municipioId: 26, nombre: "Chimaltenango", departamentoId: 3, lat: "14.7333", lng: "-90.8333", usuarioId: 1  },
+  { municipioId: 27, nombre: "San Martín Jilotepeque", departamentoId: 3, lat: "14.7500", lng: "-90.8000", usuarioId: 1  },
+  { municipioId: 28, nombre: "San Juan Comalapa", departamentoId: 3, lat: "14.6833", lng: "-90.7167", usuarioId: 1  },
+  { municipioId: 30, nombre: "San Andrés Itzapa", departamentoId: 3, lat: "14.7167", lng: "-90.8000", usuarioId: 1  },
+  { municipioId: 31, nombre: "Santa Apolonia", departamentoId: 3, lat: "14.7000", lng: "-90.8333", usuarioId: 1  },
+  { municipioId: 32, nombre: "Santa Cruz Balanyá", departamentoId: 3, lat: "14.7500", lng: "-90.7667", usuarioId: 1  },
+  { municipioId: 33, nombre: "Santa Lucía Milpas Altas", departamentoId: 3, lat: "14.6833", lng: "-90.8333", usuarioId: 1  },
+  { municipioId: 34, nombre: "Tecpán Guatemala", departamentoId: 3, lat: "14.6833", lng: "-90.8500", usuarioId: 1  },
+  { municipioId: 35, nombre: "Zaragoza", departamentoId: 3, lat: "14.7667", lng: "-90.7500", usuarioId: 1  },
+  
+  //Municipios de Chiquimula
+  { municipioId: 36, nombre: "Chiquimula", departamentoId: 4, lat: "14.7833", lng: "-89.5667", usuarioId: 1  },
+  { municipioId: 38, nombre: "San José La Arada", departamentoId: 4, lat: "14.7833", lng: "-89.5667", usuarioId: 1  },
+  { municipioId: 39, nombre: "San Juan Ermita", departamentoId: 4, lat: "14.7833", lng: "-89.5667", usuarioId: 1  },
+  { municipioId: 40, nombre: "San Jacinto", departamentoId: 4, lat: "14.7833", lng: "-89.5667", usuarioId: 1  },
+  { municipioId: 43, nombre: "San Pedro de la Paz", departamentoId: 4, lat: "14.7833", lng: "-89.5667", usuarioId: 1  },
+  { municipioId: 44, nombre: "Santa Elena", departamentoId: 4, lat: "14.7833", lng: "-89.5667", usuarioId: 1  },
+  { municipioId: 45, nombre: "Zacapa", departamentoId: 4, lat: "14.7833", lng: "-89.5667", usuarioId: 1  },
+
+  //Municipios el El Progreso
+  { municipioId: 46, nombre: "Guastatoya", departamentoId: 5, lat: "14.7106", lng: "-89.1073", usuarioId: 1  },
+  { municipioId: 47, nombre: "Morazán", departamentoId: 5, lat: "14.6397", lng: "-89.0783", usuarioId: 1  },
+  { municipioId: 48, nombre: "San Agustín Acasaguastlán", departamentoId: 5, lat: "14.6361", lng: "-89.1894", usuarioId: 1  },
+  { municipioId: 49, nombre: "San Antonio La Paz", departamentoId: 5, lat: "14.7294", lng: "-89.0561", usuarioId: 1  },
+  { municipioId: 50, nombre: "Sanarate", departamentoId: 5, lat: "14.6397", lng: "-89.2611", usuarioId: 1  },
+  { municipioId: 51, nombre: "Sansare", departamentoId: 5, lat: "14.7214", lng: "-89.0858", usuarioId: 1  },
+
+  //Municipios de Escuilta
+  { municipioId: 52, nombre: "Escuintla", departamentoId: 6, lat: "14.2802", lng: "-90.7748", usuarioId: 1  },
+  { municipioId: 53, nombre: "Amatitlán", departamentoId: 6, lat: "14.4783", lng: "-90.5972", usuarioId: 1  },
+  { municipioId: 54, nombre: "Santa Lucía Cotzumalguapa", departamentoId: 6, lat: "14.3072", lng: "-90.5222", usuarioId: 1  },
+  { municipioId: 55, nombre: "San Vicente Pacaya", departamentoId: 6, lat: "14.3594", lng: "-90.5869", usuarioId: 1  },
+  { municipioId: 56, nombre: "La Democracia", departamentoId: 6, lat: "14.3772", lng: "-90.7350", usuarioId: 1  },
+  { municipioId: 57, nombre: "Nueva Concepción", departamentoId: 6, lat: "14.3500", lng: "-90.7044", usuarioId: 1  },
+  { municipioId: 58, nombre: "San José", departamentoId: 6, lat: "14.2983", lng: "-90.7667", usuarioId: 1  },
+
+  //Municipios de Guatemala
+  { municipioId: 60, nombre: "Guatemala", departamentoId: 7, lat: "14.6349", lng: "-90.5069", usuarioId: 1  },
+  { municipioId: 61, nombre: "Mixco", departamentoId: 7, lat: "14.6342", lng: "-90.5538", usuarioId: 1  },
+  { municipioId: 62, nombre: "Villa Nueva", departamentoId: 7, lat: "14.5655", lng: "-90.5520", usuarioId: 1  },
+  { municipioId: 63, nombre: "San Miguel Petapa", departamentoId: 7, lat: "14.5728", lng: "-90.5147", usuarioId: 1  },
+  { municipioId: 64, nombre: "San Juan Sacatepéquez", departamentoId: 7, lat: "14.5740", lng: "-90.7474", usuarioId: 1  },
+  { municipioId: 65, nombre: "Palencia", departamentoId: 7, lat: "14.7167", lng: "-90.5167", usuarioId: 1  },
+  { municipioId: 66, nombre: "Chinautla", departamentoId: 7, lat: "14.6833", lng: "-90.5167", usuarioId: 1  },
+  { municipioId: 67, nombre: "San Pedro Sacatepéquez", departamentoId: 7, lat: "14.6475", lng: "-90.7750", usuarioId: 1  },
+
+  //Municipios de Huehuetenango
+  { municipioId: 68, nombre: "Huehuetenango", departamentoId: 8, lat: "15.3311", lng: "-91.4668", usuarioId: 1  },
+  { municipioId: 69, nombre: "Aguacatán", departamentoId: 8, lat: "15.4364", lng: "-91.4074", usuarioId: 1  },
+  { municipioId: 70, nombre: "Chiantla", departamentoId: 8, lat: "15.3346", lng: "-91.4593", usuarioId: 1  },
+  { municipioId: 71, nombre: "Colotenango", departamentoId: 8, lat: "15.4141", lng: "-91.5560", usuarioId: 1  },
+  { municipioId: 72, nombre: "Concepción Huista", departamentoId: 8, lat: "15.5000", lng: "-91.5750", usuarioId: 1  },
+  { municipioId: 73, nombre: "Cuilco", departamentoId: 8, lat: "15.4246", lng: "-91.4166", usuarioId: 1  },
+  { municipioId: 74, nombre: "San Juan Ixcoy", departamentoId: 8, lat: "15.4932", lng: "-91.5671", usuarioId: 1  },
+  { municipioId: 75, nombre: "San Pedro Necta", departamentoId: 8, lat: "15.3747", lng: "-91.5464", usuarioId: 1  },
+  { municipioId: 76, nombre: "San Sebastián Huehuetenango", departamentoId: 8, lat: "15.2865", lng: "-91.4883", usuarioId: 1  },
+  { municipioId: 77, nombre: "Santa Ana Huista", departamentoId: 8, lat: "15.4856", lng: "-91.6094", usuarioId: 1  },
+  { municipioId: 78, nombre: "Santa Bárbara", departamentoId: 8, lat: "15.3901", lng: "-91.5721", usuarioId: 1  },
+  { municipioId: 79, nombre: "San Miguel Acatán", departamentoId: 8, lat: "15.4175", lng: "-91.5973", usuarioId: 1  },
+  { municipioId: 80, nombre: "San Rafael La Independencia", departamentoId: 8, lat: "15.4730", lng: "-91.5186", usuarioId: 1  },
+  { municipioId: 81, nombre: "San Mateo Ixtatán", departamentoId: 8, lat: "15.4667", lng: "-91.5333", usuarioId: 1  },
+  { municipioId: 82, nombre: "San Pedro Soloma", departamentoId: 8, lat: "15.4677", lng: "-91.5354", usuarioId: 1  },
+  { municipioId: 83, nombre: "San Juan Atitán", departamentoId: 8, lat: "15.4810", lng: "-91.5420", usuarioId: 1  },
+  { municipioId: 84, nombre: "San Luis", departamentoId: 8, lat: "15.3930", lng: "-91.4816", usuarioId: 1  },
+
+  //Municipios de Izabal
+  { municipioId: 85, nombre: "Puerto Barrios", departamentoId: 9, lat: "15.7451", lng: "-88.6013", usuarioId: 1  },
+  { municipioId: 86, nombre: "Livingston", departamentoId: 9, lat: "15.7582", lng: "-88.5664", usuarioId: 1  },
+  { municipioId: 87, nombre: "Morales", departamentoId: 9, lat: "15.7540", lng: "-88.6202", usuarioId: 1  },
+  { municipioId: 88, nombre: "El Estor", departamentoId: 9, lat: "15.7436", lng: "-88.5891", usuarioId: 1  },
+  { municipioId: 89, nombre: "Los Amates", departamentoId: 9, lat: "15.7358", lng: "-88.6746", usuarioId: 1  },
+
+  //Municipios de Jalapa
+  { municipioId: 90, nombre: "Jalapa", departamentoId: 10, lat: "14.5728", lng: "-89.9291", usuarioId: 1  },
+  { municipioId: 91, nombre: "San Pedro Pinula", departamentoId: 10, lat: "14.6342", lng: "-89.8433", usuarioId: 1  },
+  { municipioId: 92, nombre: "San Luis Jilotepeque", departamentoId: 10, lat: "14.6164", lng: "-89.8837", usuarioId: 1  },
+  { municipioId: 93, nombre: "San Manuel Chaparrón", departamentoId: 10, lat: "14.5564", lng: "-89.8821", usuarioId: 1  },
+  { municipioId: 94, nombre: "San Carlos Alzatate", departamentoId: 10, lat: "14.6238", lng: "-89.9019", usuarioId: 1  },
+  { municipioId: 95, nombre: "San Francisco de Sales", departamentoId: 10, lat: "14.5738", lng: "-89.9446", usuarioId: 1  },
+
+  //Municipios de Jutiapa
+  { municipioId: 96, nombre: "Jutiapa", departamentoId: 11, lat: "14.2647", lng: "-89.5372", usuarioId: 1  },
+  { municipioId: 97, nombre: "El Progreso", departamentoId: 11, lat: "14.2086", lng: "-89.5824", usuarioId: 1  },
+  { municipioId: 98, nombre: "Santa Catarina Mita", departamentoId: 11, lat: "14.3110", lng: "-89.5310", usuarioId: 1  },
+  { municipioId: 99, nombre: "Agua Blanca", departamentoId: 11, lat: "14.2588", lng: "-89.5702", usuarioId: 1  },
+  { municipioId: 100, nombre: "Asunción Mita", departamentoId: 11, lat: "14.2672", lng: "-89.5863", usuarioId: 1  },
+  { municipioId: 101, nombre: "Comapa", departamentoId: 11, lat: "14.2341", lng: "-89.5229", usuarioId: 1  },
+  { municipioId: 102, nombre: "El Adelanto", departamentoId: 11, lat: "14.2489", lng: "-89.5322", usuarioId: 1  },
+  { municipioId: 104, nombre: "San José Acasaguastlán", departamentoId: 11, lat: "14.2701", lng: "-89.5758", usuarioId: 1  },
+  { municipioId: 105, nombre: "San José la Arada", departamentoId: 11, lat: "14.2441", lng: "-89.5607", usuarioId: 1  },
+  { municipioId: 106, nombre: "San Luis las Perlas", departamentoId: 11, lat: "14.2470", lng: "-89.5413", usuarioId: 1  },
+  { municipioId: 107, nombre: "San Pedro Pinula", departamentoId: 11, lat: "14.2630", lng: "-89.5310", usuarioId: 1  },
+  { municipioId: 108, nombre: "Santa María de Jesús", departamentoId: 11, lat: "14.2709", lng: "-89.5234", usuarioId: 1  },
+
+  //Municipios de Petén
+  { municipioId: 109, nombre: "Flores", departamentoId: 12, lat: "16.9203", lng: "-89.1843", usuarioId: 1  },
+  { municipioId: 110, nombre: "San Benito", departamentoId: 12, lat: "16.9118", lng: "-89.1924", usuarioId: 1  },
+  { municipioId: 111, nombre: "San Andrés", departamentoId: 12, lat: "16.9143", lng: "-89.1160", usuarioId: 1  },
+  { municipioId: 112, nombre: "San José", departamentoId: 12, lat: "16.9157", lng: "-89.1310", usuarioId: 1  },
+  { municipioId: 113, nombre: "San Francisco", departamentoId: 12, lat: "16.9444", lng: "-89.1569", usuarioId: 1  },
+  { municipioId: 114, nombre: "La Libertad", departamentoId: 12, lat: "16.9698", lng: "-89.3290", usuarioId: 1  },
+  { municipioId: 115, nombre: "San Luis", departamentoId: 12, lat: "16.9536", lng: "-89.3078", usuarioId: 1  },
+  { municipioId: 116, nombre: "Poptún", departamentoId: 12, lat: "16.9605", lng: "-89.2734", usuarioId: 1  },
+  { municipioId: 117, nombre: "Santa Ana", departamentoId: 12, lat: "16.8311", lng: "-89.1496", usuarioId: 1  },
+  { municipioId: 118, nombre: "Sayaxché", departamentoId: 12, lat: "16.7190", lng: "-89.3998", usuarioId: 1  },
+  { municipioId: 119, nombre: "San Javier", departamentoId: 12, lat: "16.8440", lng: "-89.1704", usuarioId: 1  },
+  { municipioId: 120, nombre: "Las Cruces", departamentoId: 12, lat: "16.8324", lng: "-89.2741", usuarioId: 1  },
+
+  //Municipios de Quiché
+  { municipioId: 121, nombre: "Santa Cruz del Quiché", departamentoId: 14, lat: "15.6333", lng: "-90.9333", usuarioId: 1  },
+  { municipioId: 122, nombre: "Chichicastenango", departamentoId: 14, lat: "14.9653", lng: "-91.1301", usuarioId: 1  },
+  { municipioId: 123, nombre: "Patzité", departamentoId: 14, lat: "15.5200", lng: "-91.0556", usuarioId: 1  },
+  { municipioId: 124, nombre: "Patzún", departamentoId: 14, lat: "15.3400", lng: "-91.2800", usuarioId: 1  },
+  { municipioId: 125, nombre: "Canillá", departamentoId: 14, lat: "15.6942", lng: "-90.9581", usuarioId: 1  },
+  { municipioId: 126, nombre: "Ixcán", departamentoId: 14, lat: "15.6500", lng: "-91.0333", usuarioId: 1  },
+  { municipioId: 127, nombre: "Uspantán", departamentoId: 14, lat: "15.7667", lng: "-90.9667", usuarioId: 1  },
+  { municipioId: 128, nombre: "Cunén", departamentoId: 14, lat: "15.6667", lng: "-91.2833", usuarioId: 1  },
+  { municipioId: 129, nombre: "Joyabaj", departamentoId: 14, lat: "15.6333", lng: "-91.0167", usuarioId: 1  },
+  { municipioId: 130, nombre: "San Pedro Jocopilas", departamentoId: 14, lat: "15.4400", lng: "-91.1000", usuarioId: 1  },
+  { municipioId: 131, nombre: "San Juan Cotzal", departamentoId: 14, lat: "15.2333", lng: "-91.1667", usuarioId: 1  },
+  { municipioId: 132, nombre: "San Antonio Ilotenango", departamentoId: 14, lat: "15.5483", lng: "-90.9892", usuarioId: 1  },
+  { municipioId: 133, nombre: "San Andrés Sajcabajá", departamentoId: 14, lat: "15.5667", lng: "-90.9833", usuarioId: 1  },
+  
+  //Municipios de Retaluleu
+  { municipioId: 134, nombre: "Retalhuleu", departamentoId: 15, lat: "14.5333", lng: "-91.6833", usuarioId: 1  },
+  { municipioId: 135, nombre: "San Sebastián", departamentoId: 15, lat: "14.5333", lng: "-91.6833", usuarioId: 1  },
+  { municipioId: 136, nombre: "San Martín", departamentoId: 15, lat: "14.5569", lng: "-91.7208", usuarioId: 1  },
+  { municipioId: 137, nombre: "San Felipe", departamentoId: 15, lat: "14.5886", lng: "-91.6822", usuarioId: 1  },
+  { municipioId: 138, nombre: "San Andrés Villa Seca", departamentoId: 15, lat: "14.5689", lng: "-91.6464", usuarioId: 1  },
+  { municipioId: 139, nombre: "San Antonio", departamentoId: 15, lat: "14.5506", lng: "-91.6875", usuarioId: 1  },
+  { municipioId: 140, nombre: "San Juan", departamentoId: 15, lat: "14.5464", lng: "-91.6740", usuarioId: 1  },
+  { municipioId: 141, nombre: "San José", departamentoId: 15, lat: "14.5617", lng: "-91.6931", usuarioId: 1  },
+  { municipioId: 142, nombre: "San Pedro", departamentoId: 15, lat: "14.5383", lng: "-91.6775", usuarioId: 1  },
+  { municipioId: 143, nombre: "San Pablo", departamentoId: 15, lat: "14.5397", lng: "-91.6808", usuarioId: 1  },
+
+  //Municipios de Sacatepéquez
+  { municipioId: 144, nombre: "Antigua Guatemala", departamentoId: 16, lat: "14.5585", lng: "-90.7334", usuarioId: 1  },
+  { municipioId: 145, nombre: "Ciudad Vieja", departamentoId: 16, lat: "14.5283", lng: "-90.7225", usuarioId: 1  },
+  { municipioId: 146, nombre: "San Miguel Dueñas", departamentoId: 16, lat: "14.5375", lng: "-90.7800", usuarioId: 1  },
+  { municipioId: 147, nombre: "San Juan del Obispo", departamentoId: 16, lat: "14.5475", lng: "-90.7583", usuarioId: 1  },
+  { municipioId: 148, nombre: "San Bartolomé Milpas Altas", departamentoId: 16, lat: "14.5711", lng: "-90.7661", usuarioId: 1  },
+  { municipioId: 149, nombre: "San Lucas Sacatepéquez", departamentoId: 16, lat: "14.5496", lng: "-90.7633", usuarioId: 1  },
+  { municipioId: 150, nombre: "San Pedro Las Huertas", departamentoId: 16, lat: "14.5664", lng: "-90.7356", usuarioId: 1  },
+  { municipioId: 151, nombre: "San Andrés Itzapa", departamentoId: 16, lat: "14.5014", lng: "-90.7878", usuarioId: 1  },
+  { municipioId: 152, nombre: "San Juan Alotenango", departamentoId: 16, lat: "14.5692", lng: "-90.7331", usuarioId: 1  },
+  { municipioId: 153, nombre: "San Antonio Aguas Calientes", departamentoId: 16, lat: "14.5286", lng: "-90.7640", usuarioId: 1  },
+
+  //Municipios de San Marcos
+  { municipioId: 154, nombre: "San Marcos", departamentoId: 17, lat: "14.9923", lng: "-91.5220", usuarioId: 1  },
+  { municipioId: 155, nombre: "Nuevo San Carlos", departamentoId: 17, lat: "14.9394", lng: "-91.4002", usuarioId: 1  },
+  { municipioId: 157, nombre: "San Antonio Sacatepéquez", departamentoId: 17, lat: "14.9337", lng: "-91.4571", usuarioId: 1  },
+  { municipioId: 158, nombre: "San Cristóbal Cucho", departamentoId: 17, lat: "14.9304", lng: "-91.4913", usuarioId: 1  },
+  { municipioId: 159, nombre: "San José El Rodeo", departamentoId: 17, lat: "14.9565", lng: "-91.5451", usuarioId: 1  },
+  { municipioId: 160, nombre: "San Juan Ostuncalco", departamentoId: 17, lat: "14.9286", lng: "-91.5804", usuarioId: 1  },
+  { municipioId: 161, nombre: "San Pedro San Marcos", departamentoId: 17, lat: "14.9511", lng: "-91.5723", usuarioId: 1  },
+  { municipioId: 162, nombre: "San Miguel Ixtahuacán", departamentoId: 17, lat: "14.9438", lng: "-91.5170", usuarioId: 1  },
+  { municipioId: 163, nombre: "San Rafael Pie de la Cuesta", departamentoId: 17, lat: "14.9212", lng: "-91.5600", usuarioId: 1  },
+  { municipioId: 164, nombre: "San Lorenzo", departamentoId: 17, lat: "14.9574", lng: "-91.4939", usuarioId: 1  },
+  { municipioId: 165, nombre: "San Marcos", departamentoId: 17, lat: "14.9986", lng: "-91.5313", usuarioId: 1  },
+  { municipioId: 166, nombre: "San Juan La Laguna", departamentoId: 17, lat: "14.9534", lng: "-91.4516", usuarioId: 1  },
+  { municipioId: 167, nombre: "San Sebastián", departamentoId: 17, lat: "14.9277", lng: "-91.4977", usuarioId: 1  },
+
+  //Municipios de Santa Rosa
+  { municipioId: 168, nombre: "Santa Rosa de Lima", departamentoId: 18, lat: "14.5498", lng: "-90.3366", usuarioId: 1  },
+  { municipioId: 169, nombre: "Cuilapa", departamentoId: 18, lat: "14.5122", lng: "-90.3627", usuarioId: 1  },
+  { municipioId: 170, nombre: "San Rafael Las Flores", departamentoId: 18, lat: "14.5977", lng: "-90.3898", usuarioId: 1  },
+  { municipioId: 171, nombre: "San Juan Tecuaco", departamentoId: 18, lat: "14.5962", lng: "-90.3125", usuarioId: 1  },
+  { municipioId: 172, nombre: "San Carlos Alzatate", departamentoId: 18, lat: "14.5112", lng: "-90.3980", usuarioId: 1  },
+  { municipioId: 173, nombre: "San Pedro de la Paz", departamentoId: 18, lat: "14.5647", lng: "-90.3350", usuarioId: 1  },
+  { municipioId: 174, nombre: "San María de Jesús", departamentoId: 18, lat: "14.5985", lng: "-90.3624", usuarioId: 1  },
+  { municipioId: 175, nombre: "La Unión", departamentoId: 18, lat: "14.5306", lng: "-90.3605", usuarioId: 1  },
+  { municipioId: 176, nombre: "El Asintal", departamentoId: 18, lat: "14.5901", lng: "-90.3080", usuarioId: 1  },
+  { municipioId: 177, nombre: "San José Acasaguastlán", departamentoId: 18, lat: "14.5384", lng: "-90.3457", usuarioId: 1  },
+
+  //Municipios de Solalá
+  { municipioId: 179, nombre: "San José Chacayá", departamentoId: 19, lat: "14.7708", lng: "-91.1583", usuarioId: 1  },
+  { municipioId: 180, nombre: "San Juan La Laguna", departamentoId: 19, lat: "14.7383", lng: "-91.1750", usuarioId: 1  },
+  { municipioId: 181, nombre: "San Pedro La Laguna", departamentoId: 19, lat: "14.7394", lng: "-91.2022", usuarioId: 1  },
+  { municipioId: 182, nombre: "San Marcos La Laguna", departamentoId: 19, lat: "14.7353", lng: "-91.1745", usuarioId: 1  },
+  { municipioId: 183, nombre: "San Pablo La Laguna", departamentoId: 19, lat: "14.7353", lng: "-91.2081", usuarioId: 1  },
+  { municipioId: 184, nombre: "Santa Catarina Ixtahuacán", departamentoId: 19, lat: "14.7153", lng: "-91.1983", usuarioId: 1  },
+  { municipioId: 185, nombre: "Santa Clara La Laguna", departamentoId: 19, lat: "14.7436", lng: "-91.2072", usuarioId: 1  },
+  { municipioId: 186, nombre: "Santa Lucía Utatlán", departamentoId: 19, lat: "14.7506", lng: "-91.1869", usuarioId: 1  },
+  { municipioId: 187, nombre: "Santiago Atitlán", departamentoId: 19, lat: "14.7108", lng: "-91.1741", usuarioId: 1  },
+
+
+  //Municipios de Suchitepéquez
+  { municipioId: 188, nombre: "Mazatenango", departamentoId: 20, lat: "14.5378", lng: "-91.5045", usuarioId: 1  },
+  { municipioId: 189, nombre: "San Francisco Zapotitlán", departamentoId: 20, lat: "14.5203", lng: "-91.5047", usuarioId: 1  },
+  { municipioId: 190, nombre: "San José El municipioIdolo", departamentoId: 20, lat: "14.5181", lng: "-91.5163", usuarioId: 1  },
+  { municipioId: 191, nombre: "San Juan Bautista", departamentoId: 20, lat: "14.5036", lng: "-91.5284", usuarioId: 1  },
+  { municipioId: 192, nombre: "San Miguel Panán", departamentoId: 20, lat: "14.4928", lng: "-91.4997", usuarioId: 1  },
+  { municipioId: 193, nombre: "San Pablo Jocopilas", departamentoId: 20, lat: "14.5011", lng: "-91.5019", usuarioId: 1  },
+  { municipioId: 194, nombre: "San Pedro La Laguna", departamentoId: 20, lat: "14.5267", lng: "-91.4978", usuarioId: 1  },
+  { municipioId: 195, nombre: "Santa Bárbara", departamentoId: 20, lat: "14.5075", lng: "-91.4964", usuarioId: 1  },
+  { municipioId: 196, nombre: "Santa Lucia Cotzumalguapa", departamentoId: 20, lat: "14.4978", lng: "-91.4736", usuarioId: 1  },
+  { municipioId: 197, nombre: "Santo Domingo Suchitepéquez", departamentoId: 20, lat: "14.5111", lng: "-91.4856", usuarioId: 1  },
+
+  //Municipios de Totonicapán
+  { municipioId: 198, nombre: "Totonicapán", departamentoId: 21, lat: "14.9186", lng: "-91.5096", usuarioId: 1  },
+  { municipioId: 199, nombre: "San Andrés Xecul", departamentoId: 21, lat: "14.8908", lng: "-91.5183", usuarioId: 1  },
+  { municipioId: 200, nombre: "San Bartolo", departamentoId: 21, lat: "14.9128", lng: "-91.4739", usuarioId: 1  },
+  { municipioId: 201, nombre: "San Francisco El Alto", departamentoId: 21, lat: "14.9186", lng: "-91.4850", usuarioId: 1  },
+  { municipioId: 202, nombre: "San Juan Atitán", departamentoId: 21, lat: "14.9183", lng: "-91.5083", usuarioId: 1  },
+  { municipioId: 203, nombre: "San Miguel Totonicapán", departamentoId: 21, lat: "14.9150", lng: "-91.4981", usuarioId: 1  },
+  { municipioId: 204, nombre: "San Sebastián", departamentoId: 21, lat: "14.9125", lng: "-91.5150", usuarioId: 1  },
+
+  //Municipios de Zacapa
+  { municipioId: 205, nombre: "Zacapa", departamentoId: 22, lat: "14.9726", lng: "-89.5458", usuarioId: 1  },
+  { municipioId: 206, nombre: "Chiquimula", departamentoId: 22, lat: "14.7833", lng: "-89.5667", usuarioId: 1  },
+  { municipioId: 207, nombre: "La Unión", departamentoId: 22, lat: "14.9761", lng: "-89.5922", usuarioId: 1  },
+  { municipioId: 208, nombre: "Gualán", departamentoId: 22, lat: "14.9646", lng: "-89.6838", usuarioId: 1  },
+  { municipioId: 209, nombre: "Estanzuela", departamentoId: 22, lat: "14.9800", lng: "-89.6094", usuarioId: 1  },
+  { municipioId: 210, nombre: "Teculután", departamentoId: 22, lat: "14.9272", lng: "-89.5483", usuarioId: 1  },
+  { municipioId: 211, nombre: "Usumatlán", departamentoId: 22, lat: "14.9686", lng: "-89.5358", usuarioId: 1  },
+  { municipioId: 212, nombre: "San Jorge", departamentoId: 22, lat: "14.9522", lng: "-89.5681", usuarioId: 1 }
+
+];
+
+export default municipios;

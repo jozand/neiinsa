@@ -1,0 +1,35 @@
+name: neinsa
+
+services:
+  mysqldb:
+    image: mysql:latest
+    container_name: mysqldb
+    environment:
+      - MYSQL_ROOT_PASSWORD=n3i!ns@
+      - MYSQL_DATABASE=neinsa
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldb-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - app-network
+
+volumes:
+  mysqldb-data:
+  mongodb-data:
+
+networks:
+  app-network:
