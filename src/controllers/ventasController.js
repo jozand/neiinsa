@@ -25,7 +25,6 @@ const lista = async (req, res) => {
         const whereConditions = {}
 
         if (pagoId != 0) {
-            console.log('entra');
             
             whereConditions.pagoId = pagoId
         }
